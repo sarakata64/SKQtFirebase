@@ -17,7 +17,7 @@ void SKQtAuth::setApiKey( const QString &apikey)
     _apikey = apikey;
 }
 
-void SKQtAuth::setSignUpUser(const QString &email, const QString &password)
+void SKQtAuth::signUpUser(const QString &email, const QString &password)
 {
     QString signEndpoint ="https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="+ _apikey;
     QVariantMap payload;
@@ -25,10 +25,11 @@ void SKQtAuth::setSignUpUser(const QString &email, const QString &password)
     payload["password"]= password;
     payload["returnSecureToken"]= true;
     QJsonDocument doc = QJsonDocument::fromVariant(payload);
-    performPost(signEndpoint,doc);
+    performPostLogin(signEndpoint,doc);
+
 }
 
-void SKQtAuth::setSignInUser(const QString &email, const QString &password)
+void SKQtAuth::signInUser(const QString &email, const QString &password)
 {
     QString signEndpoint = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + _apikey;
     QVariantMap payload;
@@ -36,7 +37,7 @@ void SKQtAuth::setSignInUser(const QString &email, const QString &password)
     payload["password"]= password;
     payload["returnSecureToken"]= true;
     QJsonDocument doc = QJsonDocument::fromVariant(payload);
-    performPost(signEndpoint,doc);
+    performPostLogin(signEndpoint,doc);
 }
 
 /*void SKQtAuth::readData()
@@ -54,24 +55,33 @@ QString SKQtAuth::readResponse()
      _ResponseValue = response;
      // get idToken
      getResponseToken(response);
-     // signal trigged for reading and parsing data
-     userSignedIn();
+     qDebug()<<response;
+
+     return response;
+
+}
+
+QString SKQtAuth::readResponseLogin()
+{
+    QByteArray response=  _reply->readAll();
+     _reply->deleteLater();
+     _ResponseValue = response;
+     // get idToken
+     getResponseToken(response);
      qDebug()<<response;
      QJsonDocument mydoc = QJsonDocument::fromJson(response);
      if(mydoc.object().contains("error"))
      {
-
-         qDebug()<< "error while auth...";
          errorAuth();
+
 
      }else if(mydoc.object().contains("kind"))
      {
-         qDebug()<<"successful Auth";
          successAuth();
+
      }
 
      return response;
-
 }
 
 void SKQtAuth::performPost(const QString &url, const QJsonDocument &payload)
@@ -80,6 +90,14 @@ void SKQtAuth::performPost(const QString &url, const QJsonDocument &payload)
     networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, QString("application/json"));
     _reply = _manager->post(networkRequest, payload.toJson());
     connect(_reply,&QNetworkReply::readyRead, this,&SKQtAuth::readResponse);
+}
+
+void SKQtAuth::performPostLogin(const QString &url, const QJsonDocument &payload)
+{
+    QNetworkRequest networkRequest((QUrl(url)));
+    networkRequest.setHeader(QNetworkRequest::ContentTypeHeader, QString("application/json"));
+    _reply = _manager->post(networkRequest, payload.toJson());
+    connect(_reply,&QNetworkReply::readyRead, this,&SKQtAuth::readResponseLogin);
 }
 
 void SKQtAuth::resetPassword(const QString &email)
@@ -150,7 +168,7 @@ void SKQtAuth::anonymousLoginIn()
     QVariantMap payload;
     payload["returnSecureToken"]= true;
     QJsonDocument doc = QJsonDocument::fromVariant(payload);
-    performPost(signEndpoint,doc);
+    performPostLogin(signEndpoint,doc);
 }
 
 
@@ -173,6 +191,7 @@ QString SKQtAuth::getResponseValue()
 {
     return _ResponseValue;
 }
+
 
 
 SKQtAuth::~SKQtAuth()
