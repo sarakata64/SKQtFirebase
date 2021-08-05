@@ -31,4 +31,4 @@ unix {
 !isEmpty(target.path): INSTALLS += target
 
 
-include(qt-json/qt-json.pri)
+
