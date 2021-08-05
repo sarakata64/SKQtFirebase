@@ -10,9 +10,8 @@
 class SKQTFIREBASE_EXPORT SKQtAuth : public QObject
 {
     Q_OBJECT
-   // Q_PROPERTY(QString getResponseValue READ getResponseValue NOTIFY userSignedIn)
-    Q_PROPERTY(QString getResponseValue  READ getResponseValue NOTIFY errorAuth)
-    Q_PROPERTY(  READ getResponseValue NOTIFY successAuth)
+    Q_PROPERTY( READ getResponseValue NOTIFY errorAuth)
+    Q_PROPERTY(  READ getResponseToken NOTIFY successAuth)
 
 public:
    explicit SKQtAuth(QObject *parent = nullptr);
@@ -30,6 +29,7 @@ public:
    Q_INVOKABLE void anonymousLoginIn();
    Q_INVOKABLE bool getResponseToken(const QByteArray & response);
    Q_INVOKABLE QString getResponseValue() ;
+   Q_INVOKABLE QString getToken();
 
 
    ~SKQtAuth();

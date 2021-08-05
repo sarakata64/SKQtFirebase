@@ -40,14 +40,6 @@ void SKQtAuth::signInUser(const QString &email, const QString &password)
     performPostLogin(signEndpoint,doc);
 }
 
-/*void SKQtAuth::readData()
-{
-    QByteArray resp = _reply->readAll();
-    qDebug()<<resp;
-    QJsonDocument mydoc = QJsonDocument::fromJson(resp);
-    qDebug()<<mydoc.object().value("food").toInt();  // this is an example
-}*/
-
 QString SKQtAuth::readResponse()
 {
     QByteArray response=  _reply->readAll();
@@ -190,6 +182,11 @@ bool SKQtAuth::getResponseToken(const QByteArray &response)
 QString SKQtAuth::getResponseValue()
 {
     return _ResponseValue;
+}
+
+QString SKQtAuth::getToken()
+{
+    return _idToken;
 }
 
 

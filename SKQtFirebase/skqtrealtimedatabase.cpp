@@ -29,10 +29,10 @@ void SKQtRealTimeDatabase::sendData(QString url, QVariantMap map)
 
   QNetworkRequest myrequest((QUrl(temp)));
   myrequest.setHeader(QNetworkRequest::ContentTypeHeader,QString("applicaton/json"));
-  _manager->post(myrequest,myjson.toJson());
+  _manager->put(myrequest,myjson.toJson());
 }
 
-void SKQtRealTimeDatabase::replaceData(QString url, QVariantMap map)
+void SKQtRealTimeDatabase::POST(QString url, QVariantMap map)
 {
     QJsonDocument myjson = QJsonDocument::fromVariant(map);
     QString temp;
@@ -41,7 +41,7 @@ void SKQtRealTimeDatabase::replaceData(QString url, QVariantMap map)
 
     QNetworkRequest myrequest((QUrl(temp)));
     myrequest.setHeader(QNetworkRequest::ContentTypeHeader,QString("applicaton/json"));
-    _manager->put(myrequest,myjson.toJson());
+    _manager->post(myrequest,myjson.toJson());
 }
 
 void SKQtRealTimeDatabase::setDataRootUrl(QString url)
