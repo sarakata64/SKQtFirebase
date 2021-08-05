@@ -7,6 +7,8 @@
 #include <QJsonArray>
 #include "skqtauth.h"
 #include "SKQtFirebase_global.h"
+#include "qt-json/json.h"
+
 SKQtRealTimeDatabase::SKQtRealTimeDatabase(QObject *parent): QObject(parent)
 {
   _manager = new QNetworkAccessManager(this);
@@ -15,8 +17,13 @@ SKQtRealTimeDatabase::SKQtRealTimeDatabase(QObject *parent): QObject(parent)
 void SKQtRealTimeDatabase::readData(QString url)
 {
     _reply = _manager->get(QNetworkRequest(QUrl(_dataUrl +"/" + url+".json?auth="+_idToken)));
+    QString json = QString::fromUtf8(_reply->readAll());
+    QJsonDocument temp = QJsonDocument::fromJson(json.toUtf8());
+    QByteArray arr = temp.toJson(QJsonDocument::Compact);
+    _arr = arr;
+     dataAvailable();
     connect(_reply, &QNetworkReply::readyRead, this, &SKQtRealTimeDatabase::getData);
-     dataAvaible();
+
 }
 
 void SKQtRealTimeDatabase::sendData(QString url, QVariantMap map)
@@ -68,15 +75,21 @@ void SKQtRealTimeDatabase::upDateData(QString child,QString key, QString value)
    _manager->sendCustomRequest(myrequest,"PATCH",buff);
 }
 
+
+
 SKQtRealTimeDatabase::~SKQtRealTimeDatabase()
 {
     _manager->deleteLater();
 }
 
-QJsonDocument SKQtRealTimeDatabase::getData()
+QByteArray SKQtRealTimeDatabase::getData()
 {
-    QString json = _reply->readAll();
-    QJsonDocument temp = QJsonDocument::fromJson(json.toUtf8());
-    qDebug()<<"json : "<<temp;
-    return temp;
+   // QString json = _reply->readAll();
+  // QString json = QString::fromUtf8(_reply->readAll());
+  // QJsonDocument temp = QJsonDocument::fromJson(json.toUtf8());
+  // QByteArray arr = temp.toJson(QJsonDocument::Compact);
+  //  qDebug()<<"temp "<<temp;
+
+
+    return _arr;
 }
