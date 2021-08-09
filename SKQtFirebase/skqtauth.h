@@ -17,7 +17,7 @@ public:
    explicit SKQtAuth(QObject *parent = nullptr);
    Q_INVOKABLE void setApiKey( const QString & apikey);
    Q_INVOKABLE void signUpUser(const QString &email,const QString & password);
-   Q_INVOKABLE void signInUser(const QString &email,const QString & password);
+   Q_INVOKABLE void signInUser(const QString &_email,const QString & _password);
    Q_INVOKABLE void performPost(const QString & url, const QJsonDocument &payload);
    Q_INVOKABLE void performPostLogin(const QString & url, const QJsonDocument &payload);
    Q_INVOKABLE void resetPassword(const QString & email);
@@ -37,6 +37,7 @@ public:
 public slots:
     QString readResponse();
     QString readResponseLogin();
+
 
 signals :
     Q_INVOKABLE void errorAuth();

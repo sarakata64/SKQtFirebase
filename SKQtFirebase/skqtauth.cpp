@@ -29,12 +29,12 @@ void SKQtAuth::signUpUser(const QString &email, const QString &password)
 
 }
 
-void SKQtAuth::signInUser(const QString &email, const QString &password)
+void SKQtAuth::signInUser(const QString &_email, const QString& _password)
 {
     QString signEndpoint = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + _apikey;
     QVariantMap payload;
-    payload["email"]= email;
-    payload["password"]= password;
+    payload["email"]= _email;
+    payload["password"]= _password;
     payload["returnSecureToken"]= true;
     QJsonDocument doc = QJsonDocument::fromVariant(payload);
     performPostLogin(signEndpoint,doc);

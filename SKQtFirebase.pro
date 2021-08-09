@@ -1,5 +1,7 @@
 TEMPLATE = subdirs
-CONFIG += ordered
+#CONFIG += ordered
 #QT += core5compat
 SUBDIRS += \
-    SKQtFirebase
+    SKQtFirebase \
+
+
