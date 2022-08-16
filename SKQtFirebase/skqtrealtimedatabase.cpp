@@ -67,6 +67,7 @@ void SKQtRealTimeDatabase::upDateData(QString child,QString key, QString value)
     QNetworkRequest myrequest((QUrl(temp)));
    myrequest.setHeader(QNetworkRequest::ContentTypeHeader,QString("applicaton/json;charset=UTF-8"));
    _manager->sendCustomRequest(myrequest,"PATCH",buff);
+   delete buff;
 }
 
 QByteArray SKQtRealTimeDatabase::data()
@@ -80,6 +81,7 @@ SKQtRealTimeDatabase::~SKQtRealTimeDatabase()
     _manager->deleteLater();
     _reply->deleteLater();
 }
+
 
 QByteArray SKQtRealTimeDatabase::getData()
 {
