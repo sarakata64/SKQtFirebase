@@ -1,5 +1,23 @@
-QT -= gui
-QT += network qml
+#QT -= gui
+QT += gui network qml
+
+
+# For Android
+android {
+   QT += webview
+}
+
+# For iOS
+ios {
+    QT += webview
+}
+
+# For other platforms
+!android:!ios {
+    QT += webenginewidgets
+}
+
+
 
 #CONFIG += qmltypes
 #QML_IMPORT_NAME = com.sarakata.skqtauth
