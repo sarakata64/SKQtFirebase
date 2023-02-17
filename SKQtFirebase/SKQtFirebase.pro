@@ -33,14 +33,14 @@ CONFIG += c++17
 
 SOURCES += \
     skqtauth.cpp \
-    skqtfirebase.cpp \
-    skqtrealtimedatabase.cpp
+    skqtrealtimedatabase.cpp \
+    skqtstorage.cpp
 
 HEADERS += \
     SKQtFirebase_global.h \
     skqtauth.h \
-    skqtfirebase.h \
-    skqtrealtimedatabase.h
+    skqtrealtimedatabase.h \
+    skqtstorage.h
 
 # Default rules for deployment.
 unix {

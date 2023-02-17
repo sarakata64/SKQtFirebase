@@ -4,7 +4,6 @@
 #include <QVariantMap>
 #include <QNetworkRequest>
 #include <QJsonObject>
-#include <QtNetworkAuth>
 #include <QtCore>
 #include <QtNetwork>
 #include <QObject>
