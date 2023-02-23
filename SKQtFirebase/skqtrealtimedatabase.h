@@ -17,13 +17,14 @@ class SKQTFIREBASE_EXPORT SKQtRealTimeDatabase: public QObject
         Q_PROPERTY( QByteArray getData READ getData NOTIFY dataAvailable)
 public:
    explicit SKQtRealTimeDatabase(QObject *parent = nullptr);
-  Q_INVOKABLE  void readData(QString url);
-  Q_INVOKABLE  void sendData(QString url, QVariantMap map);
-  Q_INVOKABLE  void POST(QString url, QVariantMap map);
+  Q_INVOKABLE  QByteArray readData(QString url);
+  Q_INVOKABLE  void put(QString url, QVariantMap map);
+  Q_INVOKABLE  void post(QString url, QVariantMap map);
   Q_INVOKABLE  void setDataRootUrl(QString  url);
   Q_INVOKABLE  void deleteData(QString child);
-  Q_INVOKABLE  void upDateData(QString child,QString key, QString value);
+  Q_INVOKABLE  void patch(QString child,QString key, QString value);
   Q_INVOKABLE  QByteArray data();
+               void handleError(QNetworkReply::NetworkError error);
 
 
 
@@ -47,6 +48,7 @@ private:
     QNetworkReply * _reply;
     QString _dataUrl;
     QJsonObject _obj;
+    QEventLoop  _eventLoop;
 
 
 };

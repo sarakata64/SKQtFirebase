@@ -13,7 +13,7 @@ void SKQtStorage::setProjectID(const QString projectId)
 QString SKQtStorage::downloadImageFromFirebaseStorage(const QString &fileName)
 {
     QNetworkAccessManager *manager = new QNetworkAccessManager();
-    QNetworkRequest request((QUrl("https://firebasestorage.googleapis.com/v0/b/"+_projectId+".appspot.com/o?uploadType=media&name="+fileName)));
+    QNetworkRequest request((QUrl("https://firebasestorage.googleapis.com/v0/b/"+_projectId+".appspot.com/o?alt=media&name="+fileName)));
     request.setRawHeader("Authorization", QString("Bearer %1").arg(_idToken).toUtf8());
     QNetworkReply *reply = manager->get(request);
     QString imagePath;
@@ -96,7 +96,7 @@ void SKQtStorage::sendToStorage(QString imageName, QString folder, QString image
 
         // Get the URL of the uploaded image
         QString url = obj["downloadUrl"].toString();
-        qDebug() << "Image uploaded successfully! URL:" << url;
+        qDebug() << "file uploaded successfully! URL:" << url;
     });
 }
 
